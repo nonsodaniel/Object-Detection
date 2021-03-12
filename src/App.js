@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import * as tf from "@tensorflow/tfjs";
-import Webcam from "react-webcam";
-import { ObjectDetection } from "@tensorflow-models/coco-ssd";
 import * as cocossd from "@tensorflow-models/coco-ssd";
+import Webcam from "react-webcam";
+import "./App.css";
 import { drawRect } from "./draw";
 
 import './App.css'
@@ -33,12 +33,11 @@ const App = () => {
       webcamRef.current.video.height = videoHeight;
 
       const obj = await net.detect(video);
-      // console.log(obj);
 
       //draw the mesh
 
       const ctx = canvasRef.current.getContext("2d");
-       // console.log(obj, ctx);
+
       drawRect(obj, ctx);
     }
   };
@@ -48,8 +47,8 @@ const App = () => {
   }, []);
 
   return (
-    <div className="app">
-      <header className="app-header">
+    <div className="App">
+      <header className="App-header">
         <Webcam
           ref={webcamRef}
           muted={true}
@@ -60,7 +59,7 @@ const App = () => {
             left: 0,
             right: 0,
             textAlign: "center",
-            zIndex: 9,
+            zindex: 9,
             width: 640,
             height: 480,
           }}
