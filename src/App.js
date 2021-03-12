@@ -8,6 +8,7 @@ import { drawRect } from "./draw";
 import './App.css'
 
 const  App =() => {
+  const [isCam, setIscam] = useState(true);
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -44,15 +45,24 @@ const  App =() => {
       drawRect(obj, ctx); 
     }
   };
+  const toggleCam = () => {
+    setIscam(!isCam);
+  };
 
   useEffect(()=>{runCoco()},[]);
 
   return (
     <div className="App">
-      <header className="App-header">
+      <div className="webcam-toggle">
+        <h2>You are welcome to my Object detection lab</h2>
+        <button onClick={toggleCam}>Toggle camera</button>
+      </div>
+      <hr />
+      {
+        isCam ? (  <header className="App-header">
         <Webcam
           ref={webcamRef}
-          muted={true} 
+          muted={true}
           style={{
             position: "absolute",
             marginLeft: "auto",
@@ -80,7 +90,9 @@ const  App =() => {
             height: 480,
           }}
         />
-      </header>
+      </header>): null
+      }
+    
     </div>
   );
 }
