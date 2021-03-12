@@ -3,7 +3,9 @@ import * as tf from "@tensorflow/tfjs";
 import Webcam from "react-webcam";
 import { ObjectDetection } from "@tensorflow-models/coco-ssd";
 import * as cocossd from "@tensorflow-models/coco-ssd";
+import { drawRect } from "./draw";
 
+import './App.css'
 
 const App = () => { 
   const webcamRef = useRef(null);
@@ -12,7 +14,7 @@ const App = () => {
   const runCoco = async () => {
     const net = await cocossd.load();
     setInterval(() => {
-      detect(net);
+      detect(net); 
     }, 10);
   };
 
@@ -31,14 +33,19 @@ const App = () => {
       webcamRef.current.video.height = videoHeight;
 
       const obj = await net.detect(video);
-      console.log(obj);
+      // console.log(obj);
 
       //draw the mesh
-      const ctx = canvasRef.current.getContent("2d");
+
+      const ctx = canvasRef.current.getContext("2d");
+       // console.log(obj, ctx);
+      drawRect(obj, ctx);
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    runCoco();
+  }, []);
 
   return (
     <div className="app">
@@ -54,7 +61,6 @@ const App = () => {
             right: 0,
             textAlign: "center",
             zIndex: 9,
-            textAlign: "center",
             width: 640,
             height: 480,
           }}
@@ -68,7 +74,7 @@ const App = () => {
             left: 0,
             right: 0,
             textAlign: "center",
-            zIndex: 8,
+            zindex: 8,
             width: 640,
             height: 480,
           }}
