@@ -7,14 +7,14 @@ import { drawRect } from "./draw";
 
 import './App.css'
 
-const App = () => { 
+const  App =() => {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
   const runCoco = async () => {
     const net = await cocossd.load();
     setInterval(() => {
-      detect(net); 
+      detect(net);
     }, 10);
   };
 
@@ -24,34 +24,35 @@ const App = () => {
       webcamRef.current !== null &&
       webcamRef.current.video.readyState === 4
     ) {
-      //get video properties
       const video = webcamRef.current.video;
       const videoWidth = webcamRef.current.video.videoWidth;
       const videoHeight = webcamRef.current.video.videoHeight;
 
+      // Set the video width
       webcamRef.current.video.width = videoWidth;
       webcamRef.current.video.height = videoHeight;
 
+      // Set the canvas height and width
+      canvasRef.current.width = videoWidth;
+      canvasRef.current.height = videoHeight;
+
+      // Make Detections
       const obj = await net.detect(video);
 
-      //draw the mesh
-
+      // Draw mesh
       const ctx = canvasRef.current.getContext("2d");
-
-      drawRect(obj, ctx);
+      drawRect(obj, ctx); 
     }
   };
 
-  useEffect(() => {
-    runCoco();
-  }, []);
+  useEffect(()=>{runCoco()},[]);
 
   return (
     <div className="App">
       <header className="App-header">
         <Webcam
           ref={webcamRef}
-          muted={true}
+          muted={true} 
           style={{
             position: "absolute",
             marginLeft: "auto",
@@ -64,6 +65,7 @@ const App = () => {
             height: 480,
           }}
         />
+
         <canvas
           ref={canvasRef}
           style={{
@@ -81,6 +83,7 @@ const App = () => {
       </header>
     </div>
   );
-};
+}
+
 
 export default App;
