@@ -1,3 +1,5 @@
+About this APP: This application is a simple Object detection work that uses your device camera to detect the object facing it.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
